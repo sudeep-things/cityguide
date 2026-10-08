@@ -20,10 +20,17 @@ services:
     region: singapore
     branch: main
     autoDeploy: true
-    # The API also serves the built SPA when frontend/dist exists, so a single
-    # service can host the whole product. See docs/deployment.md.
-    buildCommand: corepack enable && pnpm install --frozen-lockfile
-    startCommand: pnpm --filter cityguide-backend run start
+    # Neither command relies on `corepack enable` or a globally installed pnpm.
+    # Both write into directories the build user may not own, and either failing
+    # aborts the build within seconds of the clone — which is what a ~13 second
+    # failed deploy looks like. `npx` fetches pnpm into a writable cache instead,
+    # and the start command invokes node directly so no package manager is needed
+    # at runtime.
+    #
+    # The frontend is deployed separately (Vercel), so the build only installs
+    # dependencies. The API serves the API only when frontend/dist is absent.
+    buildCommand: npx --yes pnpm@11.7.0 install --frozen-lockfile
+    startCommand: node backend/src/server.js
     healthCheckPath: /api/health
     envVars:
       - key: NODE_ENV
