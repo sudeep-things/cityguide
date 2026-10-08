@@ -42,12 +42,22 @@ and every privileged action is authorized on the server.
 
 | Component | Platform | URL |
 | --- | --- | --- |
-| Frontend | Vercel | _Set after deployment — see [Deployment](#deployment)_ |
-| API | Render | _Set after deployment_ |
-| Database | Supabase PostgreSQL | Configured via `DATABASE_URL` |
+| **Frontend** | Vercel | **https://cityguide-flax.vercel.app** |
+| **API** | Render | **https://cityguide-api-hnnw.onrender.com** (`/api/health`) |
+| Database | Supabase PostgreSQL | Managed; reachable only from the API over `DATABASE_URL` |
+| Source | GitHub | https://github.com/sudeep-things/cityguide |
 
-The application runs locally with **no external services at all** — it falls back
-to a SQLite file database — so you can evaluate the whole product before
+The three services are deployed and verified end to end: the frontend loads,
+reaches the API cross-origin with credentials, signs in, and reads and writes
+real rows in Supabase.
+
+> The API runs on Render's free tier, which spins down after roughly 15 minutes
+> of inactivity. The first request afterwards can take 30–60 seconds while the
+> instance wakes. This is a hosting characteristic, not an application fault —
+> the UI shows loading states throughout.
+
+The application also runs locally with **no external services at all** — it falls
+back to a SQLite file database — so the whole product can be evaluated before
 provisioning anything. Step-by-step deployment instructions, including the exact
 environment variables and the cross-site cookie settings that are easy to get
 wrong, are in [Deployment](#deployment) and [`docs/deployment.md`](docs/deployment.md).
