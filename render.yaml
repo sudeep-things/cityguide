@@ -13,7 +13,11 @@ services:
     name: cityguide-api
     runtime: node
     plan: free
-    region: oregon
+    # Chosen to sit near the Supabase project's region (ap-northeast-1, Tokyo).
+    # A cross-region pairing adds roughly 150 ms to every database round trip,
+    # which is very noticeable on a page issuing several queries. Render's
+    # available regions are oregon, ohio, virginia, frankfurt and singapore.
+    region: singapore
     branch: main
     autoDeploy: true
     # The API also serves the built SPA when frontend/dist exists, so a single
