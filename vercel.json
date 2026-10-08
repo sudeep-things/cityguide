@@ -1,22 +1,17 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "framework": "vite",
-  "buildCommand": "pnpm run build",
-  "outputDirectory": "dist",
+  "framework": null,
   "installCommand": "pnpm install --frozen-lockfile",
+  "buildCommand": "pnpm --filter cityguide-frontend run build",
+  "outputDirectory": "frontend/dist",
   "headers": [
     {
       "comment": "Hashed build assets never change, so they can be cached permanently.",
       "source": "/assets/(.*)",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
     },
     {
-      "comment": "The HTML shell must always be revalidated so deploys take effect immediately.",
+      "comment": "The HTML shell must always be revalidated so a deploy takes effect immediately.",
       "source": "/(.*)",
       "headers": [
         { "key": "X-Content-Type-Options", "value": "nosniff" },
@@ -28,7 +23,7 @@
   ],
   "rewrites": [
     {
-      "comment": "SPA fallback: client-side routing handles every non-asset path.",
+      "comment": "SPA fallback: client-side routing serves index.html for any non-asset path.",
       "source": "/((?!assets/).*)",
       "destination": "/index.html"
     }
