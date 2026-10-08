@@ -32,15 +32,29 @@ Two things are easy to get wrong and account for most post-deployment problems:
 1. Create a project at [supabase.com](https://supabase.com) and wait for it to
    finish provisioning.
 2. Open **Project Settings → Database → Connection string → URI**.
-3. Choose the connection type:
-   - **Connection pooling** (port `6543`) for serverless or short-lived hosts.
-   - **Direct connection** (port `5432`) for a long-running server such as
-     Render — this is the recommended pairing.
+3. Choose the **Session pooler** connection string.
+
+### Which connection string to use
+
+Supabase offers three, and the choice matters more than it looks:
+
+| Option | Port | Use it? |
+| --- | --- | --- |
+| **Session pooler** | `5432` on `aws-0-<region>.pooler.supabase.com` | ✅ **Recommended.** IPv4, and supports the session-level features this app uses. |
+| Direct connection | `5432` on `db.<ref>.supabase.co` | ⚠️ **Often unusable.** Supabase made direct connections IPv6-only for newer projects, and many hosts (including Render's free tier) have no outbound IPv6 — connections fail with `ENETUNREACH`. |
+| Transaction pooler | `6543` | ❌ Avoid. Transaction mode does not support session state, which this app's transactions rely on. |
+
+The tell-tale sign you picked the wrong one is a deployment that boots and then
+fails with `connect ENETUNREACH` or a connection timeout on the health check.
+
 4. Copy the URI and replace `[YOUR-PASSWORD]` with the database password.
 
 ```
 postgresql://postgres.abcdefghijklm:N0tARealPassword@aws-0-eu-west-2.pooler.supabase.com:5432/postgres
 ```
+
+Note the username in a pooler URL is `postgres.<project-ref>`, not plain
+`postgres`.
 
 You do not need the anon key or the service-role key. All access goes through the
 API over this connection, and the migration enables Row Level Security with

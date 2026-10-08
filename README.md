@@ -546,13 +546,19 @@ Set `DATABASE_URL` and the whole application moves to PostgreSQL, running the
 PostgreSQL migrations instead:
 
 ```bash
-# backend/.env
-DATABASE_URL=postgresql://postgres.abcdefgh:PASSWORD@aws-0-eu-west-2.pooler.supabase.com:6543/postgres
+# backend/.env — use Supabase's "Session pooler" string (see docs/deployment.md)
+DATABASE_URL=postgresql://postgres.abcdefgh:PASSWORD@aws-0-eu-west-2.pooler.supabase.com:5432/postgres
 ```
 
 Then `pnpm run migrate && pnpm run seed`. No code changes are required — the
 service layer is written against a small portable interface and never branches on
 dialect.
+
+> **Do not use Supabase's *direct* connection string.** Newer projects make it
+> IPv6-only, and hosts such as Render's free tier have no outbound IPv6, so it
+> fails with `ENETUNREACH`. Use the **Session pooler** — port `5432` on the
+> `pooler.supabase.com` host — not the transaction pooler on `6543`, whose
+> transaction mode does not support the session-level transactions this app uses.
 
 ---
 
