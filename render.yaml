@@ -1,0 +1,65 @@
+# =============================================================================
+# Render blueprint for the CityGuide API
+# =============================================================================
+# Deploy with: Render Dashboard -> New -> Blueprint -> select this repository.
+#
+# Secrets (DATABASE_URL, and the real contact in NOMINATIM_USER_AGENT) are
+# marked `sync: false`, so Render prompts for them instead of storing them in
+# the repository.
+# =============================================================================
+
+services:
+  - type: web
+    name: cityguide-api
+    runtime: node
+    plan: free
+    region: oregon
+    branch: main
+    autoDeploy: true
+    # The API also serves the built SPA when frontend/dist exists, so a single
+    # service can host the whole product. See docs/deployment.md.
+    buildCommand: corepack enable && pnpm install --frozen-lockfile
+    startCommand: pnpm --filter cityguide-backend run start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+
+      # Set this to your Supabase (or other PostgreSQL) connection string.
+      # Migrations run automatically on first boot.
+      - key: DATABASE_URL
+        sync: false
+      - key: DATABASE_SSL
+        value: 'true'
+
+      # Must contain the exact frontend origin, with no trailing slash.
+      # Multiple origins are comma-separated.
+      - key: CORS_ORIGINS
+        sync: false
+
+      # The frontend and API are on different sites, so the session cookie must
+      # be SameSite=None; Secure or browsers will silently drop it.
+      - key: SESSION_COOKIE_SECURE
+        value: 'true'
+      - key: SESSION_COOKIE_SAMESITE
+        value: none
+      - key: SESSION_TTL_HOURS
+        value: '168'
+
+      # One reverse proxy sits in front of the service; without this every
+      # request appears to come from the proxy and rate limiting breaks.
+      - key: TRUST_PROXY
+        value: 'true'
+
+      # Nominatim requires a User-Agent identifying the application with a
+      # reachable contact. Placeholder domains such as example.com are rejected
+      # by the OSM Foundation.
+      - key: NOMINATIM_USER_AGENT
+        sync: false
+
+      - key: LOG_LEVEL
+        value: info
+      - key: RATE_LIMIT_AUTH_MAX
+        value: '20'
+      - key: RATE_LIMIT_GEOCODE_MAX
+        value: '20'

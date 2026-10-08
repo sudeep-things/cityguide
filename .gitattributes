@@ -1,0 +1,35 @@
+# =============================================================================
+# Line-ending normalisation
+# =============================================================================
+# CityGuide is developed on Windows but built and deployed on Linux (Render,
+# Vercel, Supabase). Without this file, Git's default `core.autocrlf` behaviour
+# can commit CRLF line endings, which breaks shell scripts and can subtly change
+# SQL and JSON parsing on the Linux side.
+#
+# `text=auto` lets Git detect text files and store them with LF in the
+# repository, checking them out with the platform-native ending locally.
+# =============================================================================
+
+* text=auto eol=lf
+
+# Windows-only scripts must keep CRLF to run under cmd.exe.
+*.cmd text eol=crlf
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+
+# Binary assets must never be line-ending converted.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.svg text
+
+# Database files are binary even though the extension looks harmless.
+*.db binary
+*.db-wal binary
+*.db-shm binary
+
+# Keep the lockfile byte-for-byte stable; CI installs depend on it.
+pnpm-lock.yaml text eol=lf -diff

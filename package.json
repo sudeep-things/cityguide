@@ -1,0 +1,25 @@
+{
+  "name": "cityguide",
+  "version": "1.0.0",
+  "private": true,
+  "description": "CityGuide — attraction discovery and itinerary planning platform",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.5.0"
+  },
+  "scripts": {
+    "dev": "pnpm -r --parallel run dev",
+    "dev:backend": "pnpm --filter cityguide-backend run dev",
+    "dev:frontend": "pnpm --filter cityguide-frontend run dev",
+    "build": "pnpm --filter cityguide-frontend run build",
+    "start": "pnpm --filter cityguide-backend run start",
+    "migrate": "pnpm --filter cityguide-backend run migrate",
+    "seed": "pnpm --filter cityguide-backend run seed",
+    "db:reset": "pnpm --filter cityguide-backend run db:reset",
+    "test": "pnpm --filter cityguide-backend run test",
+    "test:unit": "pnpm --filter cityguide-backend run test:unit",
+    "verify:api": "pnpm --filter cityguide-backend run test",
+    "verify:ui": "node scripts/verify-ui.mjs",
+    "verify": "pnpm run test:unit && pnpm run verify:api"
+  }
+}

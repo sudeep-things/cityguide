@@ -1,0 +1,492 @@
+/* ==========================================================================
+   CityGuide design system
+   --------------------------------------------------------------------------
+   A deliberately narrow palette: white surfaces, black type and a single
+   cobalt blue accent (#0047AB). Neutrals are Tailwind's built-in black/white
+   derived scale, so no extra hues enter the product. Component classes below
+   are written with plain CSS custom properties rather than @apply so the
+   tokens stay the single source of truth.
+   ========================================================================== */
+
+@import 'tailwindcss';
+
+@theme {
+  /* --- Brand: cobalt blue ------------------------------------------------ */
+  --color-cobalt-50: #eef4fd;
+  --color-cobalt-100: #d8e6fa;
+  --color-cobalt-200: #b0ccf4;
+  --color-cobalt-300: #7ea9ea;
+  --color-cobalt-400: #4a80d9;
+  --color-cobalt-500: #1f5cc0;
+  --color-cobalt-600: #0047ab; /* primary brand colour */
+  --color-cobalt-700: #003a8c;
+  --color-cobalt-800: #002e70;
+  --color-cobalt-900: #002253;
+
+  /* --- Aliases used across the UI ---------------------------------------- */
+  --color-brand: #0047ab;
+  --color-brand-hover: #003a8c;
+  --color-ink: #000000;
+  --color-paper: #ffffff;
+
+  /* --- Typography --------------------------------------------------------- */
+  --font-sans:
+    'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* --- Shape -------------------------------------------------------------- */
+  --radius-card: 0.75rem;
+  --radius-control: 0.5rem;
+
+  /* --- Motion ------------------------------------------------------------- */
+  --ease-standard: cubic-bezier(0.2, 0, 0.2, 1);
+}
+
+/* --------------------------------------------------------------------------
+   Base
+   -------------------------------------------------------------------------- */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* A single visible focus treatment for every interactive element. */
+  :focus-visible {
+    outline: 2px solid var(--color-cobalt-600);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background-color: var(--color-cobalt-600);
+    color: #ffffff;
+  }
+
+  /* Accessible skip link target */
+  [id='main-content']:focus {
+    outline: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Components
+   -------------------------------------------------------------------------- */
+@layer components {
+  /* --- Layout ------------------------------------------------------------ */
+  .container-page {
+    width: 100%;
+    max-width: 80rem;
+    margin-inline: auto;
+    padding-inline: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .container-page {
+      padding-inline: 1.5rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container-page {
+      padding-inline: 2rem;
+    }
+  }
+
+  /* --- Buttons ----------------------------------------------------------- */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: var(--radius-control);
+    border: 1px solid transparent;
+    padding: 0.625rem 1.125rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.25rem;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+      background-color 0.15s var(--ease-standard),
+      border-color 0.15s var(--ease-standard),
+      color 0.15s var(--ease-standard),
+      box-shadow 0.15s var(--ease-standard);
+  }
+
+  .btn:disabled,
+  .btn[aria-disabled='true'] {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  .btn-primary {
+    background-color: var(--color-cobalt-600);
+    border-color: var(--color-cobalt-600);
+    color: #ffffff;
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background-color: var(--color-cobalt-700);
+    border-color: var(--color-cobalt-700);
+  }
+
+  .btn-secondary {
+    background-color: #ffffff;
+    border-color: #000000;
+    color: #000000;
+  }
+
+  .btn-secondary:hover:not(:disabled) {
+    background-color: #000000;
+    color: #ffffff;
+  }
+
+  .btn-outline {
+    background-color: #ffffff;
+    border-color: var(--color-neutral-300);
+    color: #000000;
+  }
+
+  .btn-outline:hover:not(:disabled) {
+    border-color: var(--color-cobalt-600);
+    color: var(--color-cobalt-600);
+  }
+
+  .btn-ghost {
+    background-color: transparent;
+    color: #000000;
+  }
+
+  .btn-ghost:hover:not(:disabled) {
+    background-color: var(--color-neutral-100);
+  }
+
+  .btn-danger {
+    background-color: #ffffff;
+    border-color: #b91c1c;
+    color: #b91c1c;
+  }
+
+  .btn-danger:hover:not(:disabled) {
+    background-color: #b91c1c;
+    border-color: #b91c1c;
+    color: #ffffff;
+  }
+
+  .btn-sm {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.8125rem;
+  }
+
+  .btn-lg {
+    padding: 0.8125rem 1.5rem;
+    font-size: 0.9375rem;
+  }
+
+  .btn-icon {
+    padding: 0.5rem;
+    border-radius: var(--radius-control);
+  }
+
+  /* --- Forms ------------------------------------------------------------- */
+  .label {
+    display: block;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-ink);
+    margin-bottom: 0.375rem;
+  }
+
+  .input,
+  .textarea,
+  .select {
+    display: block;
+    width: 100%;
+    border-radius: var(--radius-control);
+    border: 1px solid var(--color-neutral-300);
+    background-color: #ffffff;
+    color: var(--color-ink);
+    padding: 0.625rem 0.75rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    transition:
+      border-color 0.15s var(--ease-standard),
+      box-shadow 0.15s var(--ease-standard);
+  }
+
+  .input::placeholder,
+  .textarea::placeholder {
+    color: var(--color-neutral-400);
+  }
+
+  .input:hover:not(:disabled),
+  .textarea:hover:not(:disabled),
+  .select:hover:not(:disabled) {
+    border-color: var(--color-neutral-400);
+  }
+
+  .input:focus,
+  .textarea:focus,
+  .select:focus {
+    outline: none;
+    border-color: var(--color-cobalt-600);
+    box-shadow: 0 0 0 3px var(--color-cobalt-100);
+  }
+
+  .input:disabled,
+  .textarea:disabled,
+  .select:disabled {
+    background-color: var(--color-neutral-100);
+    color: var(--color-neutral-500);
+    cursor: not-allowed;
+  }
+
+  /* Invalid state is signalled by border + icon + text, never colour alone. */
+  .input-invalid,
+  .input[aria-invalid='true'],
+  .textarea[aria-invalid='true'],
+  .select[aria-invalid='true'] {
+    border-color: #b91c1c;
+  }
+
+  .input-invalid:focus,
+  .input[aria-invalid='true']:focus {
+    box-shadow: 0 0 0 3px #fee2e2;
+  }
+
+  .field-error {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.375rem;
+    margin-top: 0.375rem;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: #b91c1c;
+  }
+
+  .field-hint {
+    margin-top: 0.375rem;
+    font-size: 0.8125rem;
+    color: var(--color-neutral-500);
+  }
+
+  .select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M4 6l4 4 4-4' stroke='%23525252' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.625rem center;
+    padding-right: 2.25rem;
+  }
+
+  /* --- Surfaces ---------------------------------------------------------- */
+  .card {
+    background-color: #ffffff;
+    border: 1px solid var(--color-neutral-200);
+    border-radius: var(--radius-card);
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.04);
+  }
+
+  .card-interactive {
+    transition:
+      border-color 0.18s var(--ease-standard),
+      box-shadow 0.18s var(--ease-standard),
+      transform 0.18s var(--ease-standard);
+  }
+
+  .card-interactive:hover {
+    border-color: var(--color-cobalt-300);
+    box-shadow: 0 8px 24px -12px rgb(0 71 171 / 0.28);
+    transform: translateY(-2px);
+  }
+
+  /* --- Badges ------------------------------------------------------------ */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    border-radius: 9999px;
+    border: 1px solid transparent;
+    padding: 0.125rem 0.625rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.125rem;
+    white-space: nowrap;
+  }
+
+  .badge-cobalt {
+    background-color: var(--color-cobalt-50);
+    border-color: var(--color-cobalt-200);
+    color: var(--color-cobalt-700);
+  }
+
+  .badge-neutral {
+    background-color: var(--color-neutral-100);
+    border-color: var(--color-neutral-200);
+    color: var(--color-neutral-700);
+  }
+
+  .badge-success {
+    background-color: #f0fdf4;
+    border-color: #bbf7d0;
+    color: #15803d;
+  }
+
+  .badge-danger {
+    background-color: #fef2f2;
+    border-color: #fecaca;
+    color: #b91c1c;
+  }
+
+  .badge-warning {
+    background-color: #fffbeb;
+    border-color: #fde68a;
+    color: #a16207;
+  }
+
+  /* --- Links -------------------------------------------------------------- */
+  .link {
+    color: var(--color-cobalt-600);
+    font-weight: 500;
+    text-decoration: none;
+    text-underline-offset: 2px;
+  }
+
+  .link:hover {
+    text-decoration: underline;
+  }
+
+  /* --- Tables ------------------------------------------------------------- */
+  .table-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+  }
+
+  .table th {
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-neutral-500);
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--color-neutral-200);
+    white-space: nowrap;
+    background-color: var(--color-neutral-50);
+  }
+
+  .table td {
+    padding: 0.875rem 1rem;
+    border-bottom: 1px solid var(--color-neutral-100);
+    vertical-align: middle;
+  }
+
+  .table tbody tr:hover {
+    background-color: var(--color-neutral-50);
+  }
+
+  /* --- Loading ------------------------------------------------------------ */
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      var(--color-neutral-100) 25%,
+      var(--color-neutral-200) 37%,
+      var(--color-neutral-100) 63%
+    );
+    background-size: 400% 100%;
+    animation: skeleton-shimmer 1.4s ease-in-out infinite;
+    border-radius: var(--radius-control);
+  }
+
+  @keyframes skeleton-shimmer {
+    0% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0 50%;
+    }
+  }
+
+  /* --- Misc --------------------------------------------------------------- */
+  .divider {
+    height: 1px;
+    background-color: var(--color-neutral-200);
+    border: 0;
+  }
+
+  /* Hero texture: pure black/cobalt, no extra hues. */
+  .hero-surface {
+    background-color: #000000;
+    background-image:
+      radial-gradient(ellipse 70% 60% at 15% 0%, rgb(0 71 171 / 0.55), transparent 60%),
+      radial-gradient(ellipse 50% 50% at 90% 20%, rgb(0 71 171 / 0.35), transparent 65%);
+  }
+
+  /* Line clamp helpers (kept here so cards share exact truncation). */
+  .clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Leaflet overrides — keep the map inside the design system
+   -------------------------------------------------------------------------- */
+.leaflet-container {
+  font-family: var(--font-sans);
+  background-color: var(--color-neutral-100);
+  z-index: 0;
+}
+
+.leaflet-container a {
+  color: var(--color-cobalt-700);
+}
+
+/* Attribution stays legible and visible, as the tile licence requires. */
+.leaflet-control-attribution {
+  background: rgb(255 255 255 / 0.92) !important;
+  font-size: 0.6875rem !important;
+  color: var(--color-neutral-700);
+}
+
+.leaflet-control-zoom a {
+  color: #000000 !important;
+}

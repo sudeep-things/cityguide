@@ -1,0 +1,17 @@
+packages:
+  - backend
+  - frontend
+
+# Install dependencies as real directories in a flat node_modules tree rather
+# than junctions into pnpm's virtual store. The isolated layout relies on Node
+# resolving those junctions back to their real paths; on Windows, and under a
+# OneDrive-synced folder in particular, that resolution does not always happen,
+# which leaves transitive dependencies of build tools (Vite's rollup and
+# esbuild) unresolvable. The hoisted layout avoids the problem entirely.
+nodeLinker: hoisted
+
+# esbuild ships its Windows binary through the optional dependency
+# @esbuild/win32-x64, which installs normally. Its install script only
+# re-validates that binary, so it is deliberately not executed here.
+allowBuilds:
+  esbuild: false

@@ -1,0 +1,29 @@
+{
+  "warning": "DEMO CREDENTIALS ONLY. These accounts exist so the application can be demonstrated immediately after setup. They use well-known passwords and must never be created on a public deployment. The seeder refuses to run when NODE_ENV=production unless ALLOW_PRODUCTION_SEED=true is explicitly set.",
+  "users": [
+    {
+      "name": "Alex Morgan",
+      "email": "admin@cityguide.test",
+      "role": "admin",
+      "demoPassword": "Admin123!"
+    },
+    {
+      "name": "Priya Raman",
+      "email": "curator@cityguide.test",
+      "role": "curator",
+      "demoPassword": "Curator123!"
+    },
+    {
+      "name": "Sam Rivera",
+      "email": "traveler@cityguide.test",
+      "role": "traveler",
+      "demoPassword": "Traveler123!"
+    },
+    {
+      "name": "Jo Bennett",
+      "email": "traveler2@cityguide.test",
+      "role": "traveler",
+      "demoPassword": "Traveler123!"
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="CityGuide">
+  <rect width="64" height="64" rx="14" fill="#0047AB" />
+  <path
+    d="M32 13c-7.7 0-14 6.2-14 13.9C18 38.4 32 51 32 51s14-12.6 14-24.1C46 19.2 39.7 13 32 13Zm0 19.2a5.4 5.4 0 1 1 0-10.8 5.4 5.4 0 0 1 0 10.8Z"
+    fill="#FFFFFF"
+  />
+  <circle cx="32" cy="27" r="2.6" fill="#0047AB" />
+</svg>

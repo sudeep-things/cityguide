@@ -1,0 +1,38 @@
+[
+  {
+    "name": "Historical",
+    "description": "Castles, palaces, monuments and sites of significant historic interest."
+  },
+  {
+    "name": "Nature",
+    "description": "Parks, gardens, woodland and green spaces for open-air exploring."
+  },
+  {
+    "name": "Museum",
+    "description": "Collection-based institutions covering art, science, history and design."
+  },
+  {
+    "name": "Religious",
+    "description": "Cathedrals, churches, abbeys and other places of worship open to visitors."
+  },
+  {
+    "name": "Adventure",
+    "description": "Active experiences: climbing, water sports, trails and outdoor challenges."
+  },
+  {
+    "name": "Cultural",
+    "description": "Theatres, concert halls and performance venues central to local culture."
+  },
+  {
+    "name": "Entertainment",
+    "description": "Observation decks, arenas, rides and spectacles for a lively afternoon."
+  },
+  {
+    "name": "Shopping",
+    "description": "Markets, arcades and shopping districts worth browsing."
+  },
+  {
+    "name": "Food",
+    "description": "Food markets, street-food lanes and celebrated culinary destinations."
+  }
+]
